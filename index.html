@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>天数ルナ — 天数術</title>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --gold:#c9a84c;
+  --gold-light:#e8cc7a;
+  --gold-dim:#7a6030;
+  --ink:#080808;
+  --ink2:#111111;
+  --text:#e8e0d0;
+  --text-dim:#8a8070;
+}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--ink);
+  color:var(--text);
+  font-family:'Noto Sans JP',sans-serif;
+  font-weight:300;
+  line-height:1.8;
+  overflow-x:hidden;
+}
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(1px 1px at 20% 15%, rgba(201,168,76,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 75% 8%, rgba(201,168,76,0.3) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 45% 25%, rgba(201,168,76,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 88% 32%, rgba(201,168,76,0.2) 0%, transparent 100%),
+    radial-gradient(1px 1px at 12% 42%, rgba(201,168,76,0.3) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 60% 55%, rgba(201,168,76,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 33% 68%, rgba(201,168,76,0.2) 0%, transparent 100%),
+    radial-gradient(1px 1px at 90% 72%, rgba(201,168,76,0.3) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 5% 80%, rgba(201,168,76,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 88%, rgba(201,168,76,0.2) 0%, transparent 100%),
+    radial-gradient(1px 1px at 78% 92%, rgba(201,168,76,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 25% 95%, rgba(201,168,76,0.2) 0%, transparent 100%);
+  pointer-events:none;
+  z-index:0;
+}
+.container{max-width:480px;margin:0 auto;padding:0 24px;position:relative;z-index:1;}
+header{text-align:center;padding:72px 0 48px;}
+.logo-symbol{font-family:'Shippori Mincho',serif;font-size:13px;letter-spacing:0.4em;color:var(--gold);margin-bottom:24px;opacity:0;animation:fadeUp 1s ease 0.2s forwards;}
+.logo-name{font-family:'Shippori Mincho',serif;font-size:42px;font-weight:600;color:var(--text);letter-spacing:0.15em;line-height:1.2;opacity:0;animation:fadeUp 1s ease 0.4s forwards;}
+.logo-name span{color:var(--gold);}
+.logo-sub{font-size:12px;letter-spacing:0.35em;color:var(--text-dim);margin-top:12px;opacity:0;animation:fadeUp 1s ease 0.6s forwards;}
+.divider{width:1px;height:48px;background:linear-gradient(to bottom, transparent, var(--gold-dim), transparent);margin:32px auto;opacity:0;animation:fadeIn 1s ease 0.8s forwards;}
+
+/* today section */
+.today-section{text-align:center;padding:40px 0;opacity:0;animation:fadeUp 1s ease 1s forwards;}
+.today-label{font-size:11px;letter-spacing:0.4em;color:var(--gold);margin-bottom:16px;}
+.today-date{font-size:13px;color:var(--text-dim);margin-bottom:32px;letter-spacing:0.1em;}
+.today-number{font-family:'Shippori Mincho',serif;font-size:96px;font-weight:600;color:var(--gold);line-height:1;position:relative;display:inline-block;}
+.today-number::before{content:'';position:absolute;inset:-16px;border:1px solid rgba(201,168,76,0.2);border-radius:50%;}
+.today-number::after{content:'';position:absolute;inset:-28px;border:1px solid rgba(201,168,76,0.08);border-radius:50%;}
+.today-type{font-family:'Shippori Mincho',serif;font-size:18px;color:var(--text);margin-top:28px;letter-spacing:0.2em;}
+.today-msg{font-size:14px;color:var(--text-dim);margin-top:12px;line-height:1.9;padding:0 8px;}
+
+/* today full message box */
+.msg-box{background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:2px;padding:24px;margin-top:24px;text-align:left;}
+.msg-box-label{font-size:11px;letter-spacing:0.3em;color:var(--gold);margin-bottom:12px;}
+.msg-box-content{font-size:14px;color:var(--text);line-height:2;}
+.msg-box-theme{font-size:12px;color:var(--text-dim);margin-top:12px;padding-top:12px;border-top:1px solid rgba(201,168,76,0.1);}
+
+/* copy btn */
+.copy-btn{display:inline-block;margin-top:12px;padding:4px 10px;background:transparent;border:1px solid rgba(201,168,76,0.15);border-radius:2px;color:var(--text-dim);font-family:'Noto Sans JP',sans-serif;font-size:10px;letter-spacing:0.1em;cursor:pointer;transition:all 0.3s;text-align:center;}
+.copy-btn:hover{color:var(--gold);border-color:rgba(201,168,76,0.3);}
+
+/* section */
+.section{padding:40px 0;opacity:0;animation:fadeUp 1s ease 1.2s forwards;}
+.section-label{font-size:11px;letter-spacing:0.4em;color:var(--gold);margin-bottom:24px;text-align:center;}
+
+/* calculator */
+.calc-box{background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:2px;padding:28px 24px;}
+.calc-desc{font-size:13px;color:var(--text-dim);text-align:center;margin-bottom:20px;line-height:1.8;}
+.input-group{display:flex;gap:10px;margin-bottom:8px;}
+.calc-input{flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(201,168,76,0.2);border-radius:2px;padding:12px 16px;color:var(--text);font-family:'Noto Sans JP',sans-serif;font-size:14px;font-weight:300;outline:none;transition:border-color 0.3s;}
+.calc-input::placeholder{color:var(--text-dim);}
+.calc-input:focus{border-color:var(--gold);}
+.calc-btn{background:var(--gold);border:none;border-radius:2px;padding:12px 20px;color:var(--ink);font-family:'Noto Sans JP',sans-serif;font-size:13px;font-weight:500;cursor:pointer;letter-spacing:0.1em;transition:background 0.3s;white-space:nowrap;}
+.calc-btn:hover{background:var(--gold-light);}
+.calc-hint{font-size:11px;color:var(--text-dim);text-align:center;}
+.calc-result{display:none;margin-top:20px;padding-top:20px;border-top:1px solid rgba(201,168,76,0.15);text-align:center;}
+.result-number{font-family:'Shippori Mincho',serif;font-size:52px;color:var(--gold);line-height:1;}
+.result-type{font-family:'Shippori Mincho',serif;font-size:16px;color:var(--text);margin-top:10px;letter-spacing:0.2em;}
+.result-char{font-size:13px;color:var(--text-dim);margin-top:10px;line-height:1.9;text-align:left;}
+.result-today{margin-top:16px;padding:16px;background:rgba(201,168,76,0.06);border-radius:2px;text-align:left;}
+.result-today-label{font-size:11px;letter-spacing:0.3em;color:var(--gold);margin-bottom:8px;}
+.result-today-msg{font-size:13px;color:var(--text);line-height:1.9;}
+
+/* cta */
+.cta-section{padding:40px 0 24px;opacity:0;animation:fadeUp 1s ease 1.4s forwards;}
+.cta-btn{display:block;width:100%;padding:18px 24px;margin-bottom:12px;border-radius:2px;font-family:'Noto Sans JP',sans-serif;font-size:14px;font-weight:400;letter-spacing:0.15em;text-align:center;text-decoration:none;cursor:pointer;transition:all 0.3s;border:none;}
+.cta-primary{background:var(--gold);color:var(--ink);}
+.cta-primary:hover{background:var(--gold-light);}
+.cta-secondary{background:transparent;color:var(--text);border:1px solid rgba(201,168,76,0.3);}
+.cta-secondary:hover{border-color:var(--gold);color:var(--gold);}
+.cta-label{font-size:10px;letter-spacing:0.3em;color:var(--text-dim);margin-bottom:6px;}
+
+/* 17 */
+.seventeen-section{padding:48px 0;text-align:center;opacity:0;animation:fadeUp 1s ease 1.6s forwards;}
+.seventeen-num{font-family:'Shippori Mincho',serif;font-size:64px;color:rgba(201,168,76,0.15);line-height:1;margin-bottom:16px;}
+.seventeen-text{font-size:13px;color:var(--text-dim);line-height:2;}
+.seventeen-text em{color:var(--gold);font-style:normal;}
+
+footer{text-align:center;padding:48px 0 64px;border-top:1px solid rgba(201,168,76,0.1);}
+.footer-name{font-family:'Shippori Mincho',serif;font-size:16px;color:var(--text-dim);letter-spacing:0.3em;}
+.footer-copy{font-size:11px;color:rgba(138,128,112,0.5);margin-top:8px;letter-spacing:0.1em;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+hr{border:none;border-top:1px solid rgba(201,168,76,0.1);margin:8px 0;}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <p class="logo-symbol">✦ TENSUU JUTSU ✦</p>
+    <h1 class="logo-name">天数<span>ルナ</span></h1>
+    <p class="logo-sub">天数術 — 運命数が導く、あなたの今日</p>
+    <div class="divider"></div>
+  </header>
+
+  <div class="today-section">
+    <p class="today-label">TODAY'S TENSUU</p>
+    <p class="today-date" id="today-date"></p>
+    <div class="today-number" id="today-num"></div>
+    <p class="today-type" id="today-type"></p>
+    <p class="today-msg" id="today-msg"></p>
+    <div class="msg-box" id="today-full-box">
+      <p class="msg-box-label">✦ 今日のメッセージ</p>
+      <p class="msg-box-content" id="today-full-msg"></p>
+      <p class="msg-box-theme" id="today-theme-note"></p>
+      <button class="copy-btn" onclick="copyMsg()">このメッセージをコピーする</button>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section">
+    <p class="section-label">YOUR TENSUU — あなたの運命数</p>
+    <div class="calc-box">
+      <p class="calc-desc">生年月日を入力すると、<br>あなたの運命数と今日のメッセージが分かります</p>
+      <div class="input-group">
+        <input type="text" class="calc-input" id="bdate" placeholder="例：19950322" maxlength="8">
+        <button class="calc-btn" onclick="calcMei()">調べる</button>
+      </div>
+      <p class="calc-hint">西暦8桁で入力（例：1995年3月22日→19950322）</p>
+      <div class="calc-result" id="calc-result">
+        <div class="result-number" id="result-num"></div>
+        <p class="result-type" id="result-type"></p>
+        <p class="result-char" id="result-char"></p>
+        <div class="result-today">
+          <p class="result-today-label">✦ あなたの今日のメッセージ</p>
+          <p class="result-today-msg" id="result-today-msg"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-section">
+    <p class="section-label">READING — 詳しく鑑定する</p>
+    <p class="cta-label">無料テキスト鑑定 · LINE</p>
+    <a href="https://lin.ee/ELuvOQj" class="cta-btn cta-primary">LINEで鑑定を申し込む</a>
+    <p class="cta-label">今月の運命数別運勢 · note</p>
+    <a href="https://note.com/tensuu_luna" class="cta-btn cta-secondary">noteで詳細運勢を読む</a>
+  </div>
+
+  <div class="seventeen-section">
+    <div class="seventeen-num">17</div>
+    <p class="seventeen-text">
+      <em>1</em>は始まり、<em>7</em>は完成。<br>
+      この2つが融合した数が<em>17</em>。<br><br>
+      タロットの17番目は「星」——<br>
+      希望と導きを意味するカード。<br><br>
+      天数術が<em>17</em>種に分類されるのは、<br>
+      宇宙の法則に従っているから。
+    </p>
+  </div>
+
+  <hr>
+
+  <footer>
+    <p class="footer-name">天数ルナ</p>
+    <p class="footer-copy">© 天数術 All rights reserved.</p>
+  </footer>
+
+</div>
+
+<script>
+const typeNames=["","開拓","調和","表現","基盤","変容","愛情","探究","循環","完成"];
+
+const todayThemes=[
+  "",
+  "新しい縁が動き出す日。最初の一歩を踏み出した人に流れが来ます。",
+  "人との繋がりを大切にする日。誰かに連絡してみてください。",
+  "言葉が縁を結ぶ日。素直な気持ちを伝えた人が流れをつかみます。",
+  "基盤を固める日。今あるものを丁寧に扱うことで天数が整います。",
+  "動いた人に流れが来る日。迷っているなら今日が動くべき時。",
+  "愛情が縁を深める日。大切な人に気持ちを伝えてください。",
+  "直感が冴える日。論理より感覚を信じた人に答えが来ます。",
+  "与えた分だけ返ってくる日。惜しまず動いた人に縁が集まります。",
+  "手放すことで新しい縁が入ってくる日。執着を一つ捨ててください。"
+];
+
+const patterns=[
+  null,
+  {
+    name:"開拓の数",
+    sub:"始まりの力と強い意志が宿る",
+    char:"表には出さないけれど、誰よりも強い意志と信念を内側に秘めています。一度決めたことは最後までやり遂げる力がある反面、その強さゆえに孤独を感じやすいところがあります。人に頼ることが苦手で、いつも少し頑張りすぎてしまう。そのことに自分では気づいていないかもしれません。でも、そのひたむきさが、本物の縁を引き寄せる理由になっています。新しいことへの挑戦を恐れない勇気を持っていますが、完璧を求めるあまり動き出せないことも。あなたの直感は鋭く、最初に感じた答えが正しいことが多いです。今のあなたの縁は、あなたが一歩踏み出すのを待っています。",
+    base:"今日のあなたには、誰よりも強い「開拓のエネルギー」が流れています。躊躇していたことがあれば、今日がその一歩を踏み出す日です。完璧じゃなくていい。動いた瞬間に、縁は動き出します。あなたの直感を信じてください。"
+  },
+  {
+    name:"調和の数",
+    sub:"縁を繋ぐ橋渡しの魂",
+    char:"人の気持ちを誰よりも敏感に感じ取る力を持っています。相手が言葉にしていない感情まで読み取れるため、知らず知らずのうちに疲れを溜め込んでしまうことがあります。自分よりも他の人のことを優先してしまう癖があり、本当は嫌だったのに後から気づくことも少なくありません。でも、そのやさしさがあなたの最大の魅力であり、多くの人があなたのそばに集まる理由です。人間関係において橋渡し役になることが多く、誰とでも仲良くなれる才能があります。ただ、本音を隠してしまうことも。今、あなたの縁は「伝えること」を必要としています。",
+    base:"今日のあなたには、縁を繋ぐ「調和のエネルギー」が流れています。誰かに連絡したい気持ちがあるなら、それは縁のサインです。自分の気持ちを後回しにせず、今日は素直に伝えてみてください。あなたの言葉が、止まっていた縁を動かします。"
+  },
+  {
+    name:"表現の数",
+    sub:"言葉と感情で縁を結ぶ",
+    char:"言葉や感情で縁を結ぶ力を持っています。気持ちが乗った時の表現力は誰よりも豊かで、周りの人を惹きつける天性の魅力があります。好きな人には素直になれないところがありますよね。心の中では伝えたいことが山ほどあるのに、いざとなると言葉が出てこない。それはあなたが臆病なのではなく、傷つくことを誰よりも知っているからです。気持ちの浮き沈みが激しく、調子がいい時は誰よりも輝くけれど、落ちている時は誰にも会いたくなくなる。その繊細さも、あなたの魅力の一部です。今のあなたに必要なのは、素直に伝える勇気です。縁は、あなたの言葉を待っています。",
+    base:"今日のあなたには、「表現のエネルギー」が最高潮に達しています。伝えたいことを言葉にするなら今日です。うまく言えなくてもいい。気持ちを伝えようとする姿勢そのものが、縁を動かします。今日の一言が、大きな縁の転換点になるかもしれません。"
+  },
+  {
+    name:"基盤の数",
+    sub:"誠実さと信頼が縁を守る",
+    char:"誠実さと責任感を誰よりも強く持っている魂です。約束を守ることを大切にし、信頼される存在として周りから頼られることが多いでしょう。その反面、頑張りすぎてしまう傾向があります。「自分がやらなければ」という使命感が強く、本当は休みたいのに休めない。弱音を吐くことが苦手で、いつも一人で抱え込んでしまいます。変化を嫌い安定を好む傾向がありますが、それは怠けているのではなく、大切なものを守りたいという気持ちの表れです。焦って動くよりも、じっくり準備した人が最終的に勝つことを、あなたは本能的に知っています。今のあなたの縁は、着実に根を張っています。焦らなくていいです。",
+    base:"今日のあなたには、「基盤のエネルギー」が流れています。焦らず、今あるものを丁寧に扱うことで縁が整います。新しいことを始めるより、すでに大切にしている人や関係に目を向けてください。その誠実さが、今日の縁を確実に育てます。"
+  },
+  {
+    name:"変容の数",
+    sub:"変化の中に生きる魂",
+    char:"変化の中に生きる魂を持っています。人生の転機が人より多く、またここから変わるのかと感じることが繰り返されてきたかもしれません。でもその変化の全てに、意味があります。好奇心が旺盛で、新しいことへの感受性が高い。飽きっぽいと言われることもあるかもしれませんが、それはあなたの魂が常に成長を求めているからです。多くの人と縁が交差し、さまざまな出会いと別れを経験してきた。その経験が今のあなたの深さをつくっています。今まで我慢してきたこと、諦めてきたこと——それが今、形になろうとしています。あなたの縁は、変化の先に待っています。動くことを恐れないでください。",
+    base:"今日のあなたには、「変容のエネルギー」が二重に重なっています。今日の天数も5、あなたの運命数も5。この日に動いた人が、流れを大きく変えます。迷いがあっても、まず一歩。変化を受け入れた瞬間に、縁は一気に動き出します。"
+  },
+  {
+    name:"愛情の数",
+    sub:"愛で縁を深める魂",
+    char:"愛することへの純粋さと深さを持っています。好きな人のためなら何でもできる、そのひたむきさが、あなたの縁の最大の武器です。家族・恋愛・仲間との縁が特に強く、大切な人のために動くとき、あなたは最大の力を発揮します。ただ、愛情深いがゆえに、見返りを求めすぎて疲れてしまうことも。「これだけやっているのに」と感じたことがあるなら、与え方のバランスを見直す時期かもしれません。自分を後回しにしすぎているところがあります。あなたが幸せでいることが、周りの縁を守ることに繋がります。今のあなたの縁は、あなた自身を大切にすることで、さらに深まります。",
+    base:"今日のあなたには、「愛情のエネルギー」が流れています。大切な人への気持ちを、今日は素直に表現してみてください。言葉でも、行動でも、小さなことでいい。あなたの愛情が伝わった瞬間に、縁はさらに深まります。自分を後回しにしすぎていませんか。今日はあなた自身も大切に。"
+  },
+  {
+    name:"探究の数",
+    sub:"真実を見抜く直感の魂",
+    char:"真実を見抜く鋭い直感と、物事の本質を見通す力を持っています。表面的なことに惑わされず、相手の本音や隠された意味を感じ取る能力が人より発達しています。少し人見知りに見られることがあるかもしれませんが、それはあなたの魂が本物の縁だけを選ぼうとしているからです。誰とでも仲良くなれる代わりに、本当に信頼できる人とだけ深く繋がりたいという強い欲求があります。一人の時間を必要とし、静かな場所で考えをまとめることで本来の力が発揮されます。孤独を好んでいるように見えて、実は深く誰かと繋がることを求めています。今のあなたの縁は、あなたが心を開いた瞬間に動き出します。",
+    base:"今日のあなたには、「探究のエネルギー」が冴えわたっています。論理より直感を優先してください。なんとなく気になる人、なんとなく気になる選択——その感覚が正しいです。今日は頭で考えるより、心が向く方向に動いてみてください。その先に、本物の縁があります。"
+  },
+  {
+    name:"循環の数",
+    sub:"与えた縁が巡って戻る",
+    char:"与えた分だけ必ず返ってくる、循環の法則を体現している魂です。これまでの人生で、誰かのために惜しみなく時間やエネルギーを使ってきたはずです。その与えてきたものが、今まさに戻ってくる時期を迎えています。今まで報われないと感じていたこと、頑張っているのに認められなかったこと——それが少しずつ形になり始めます。豊かさへの意識が高く、結果にこだわる傾向があります。ただ、焦りが出ると逆に流れが滞ることも。感謝の気持ちを持ち続けることで、縁の循環が加速します。今のあなたの縁は、あなたが受け取ることを許可した瞬間に動き出します。",
+    base:"今日のあなたには、「循環のエネルギー」が流れています。今まで与えてきたものが、今日戻ってくる予感があります。感謝の気持ちを誰かに伝えることで、止まっていた縁の流れが一気に動き出します。受け取ることを遠慮しないでください。あなたにはその資格があります。"
+  },
+  {
+    name:"完成の数",
+    sub:"全ての縁を包み込む大きな魂",
+    char:"全ての縁を包み込む深い慈悲と智慧を持つ、天数の中で最も大きなスケールの魂です。あなたがいるだけで場の空気が変わり、知らず知らずのうちに多くの人に影響を与えています。その大きさゆえに、自分でも気づかないうちに多くのものを背負いすぎていることがあります。なぜ自分ばかりと感じることがあるなら、それはあなたが持つ力の大きさに、縁が集まってきている証拠です。手放すことが苦手で、終わった縁にいつまでも引きずられることも。でも手放した分だけ、新しい縁が入ってくる空間が生まれます。あなたの縁は、今世で最も重要な転換点を迎えています。",
+    base:"今日のあなたには、「完成のエネルギー」が流れています。何かを終わらせる勇気を持てると、新しい縁への扉が開きます。執着していることを一つ手放してみてください。背負いすぎていませんか。今日は自分を労わることが、縁を整える一番の方法です。"
+  }
+];
+
+function digitSum(n){while(n>9){n=String(n).split('').reduce((a,b)=>a+Number(b),0);}return n;}
+
+function buildMsg(destNum, todayTensuu){
+  const p=patterns[destNum];
+  const theme=todayThemes[todayTensuu];
+  return `天数ルナです。\n今日の天数は【${todayTensuu}】。\n${theme}\n\n運命数【${destNum}】${p.name}のあなたへ——\n${p.base}`;
+}
+
+let todayTensuuVal=1;
+let todayFullMsgText='';
+
+(function(){
+  const d=new Date();
+  const y=d.getFullYear(),m=d.getMonth()+1,day=d.getDate();
+  const s=String(y)+String(m)+String(day);
+  const en=digitSum(s.split('').reduce((a,b)=>a+Number(b),0));
+  todayTensuuVal=en;
+  const weeks=['日','月','火','水','木','金','土'];
+  document.getElementById('today-date').textContent=y+'年'+m+'月'+day+'日（'+weeks[d.getDay()]+'）';
+  document.getElementById('today-num').textContent=en;
+  document.getElementById('today-type').textContent=typeNames[en]+'の天数';
+  document.getElementById('today-msg').textContent=todayThemes[en];
+
+  todayFullMsgText=`天数ルナです。\n今日${m}月${day}日の天数は【${en}】${typeNames[en]}の天数。\n\n${todayThemes[en]}\n\n自分の運命数と足して、今日のあなたの数字を出してください。\n→ kmazda-prog.github.io/tensuu-luna/`;
+  document.getElementById('today-full-msg').innerText=todayFullMsgText;
+  document.getElementById('today-theme-note').textContent=`※ 今日の天数${en}は「${typeNames[en]}」のエネルギーが流れる日です。`;
+})();
+
+function copyMsg(){
+  navigator.clipboard.writeText(todayFullMsgText).then(()=>{
+    const btn=document.querySelector('.copy-btn');
+    btn.textContent='コピーしました ✦';
+    setTimeout(()=>{btn.textContent='コピーする';},2000);
+  });
+}
+
+function calcMei(){
+  const v=document.getElementById('bdate').value.replace(/\D/g,'');
+  if(v.length<6)return;
+  const myNum=digitSum(v.split('').reduce((a,b)=>a+Number(b),0));
+  const destNum=myNum+todayTensuuVal;
+  const p=patterns[destNum  ,{
+    name:"光明の数",
+    sub:"導きの光が差し込む",
+    char:"周りからは強く見られているけれど、内側では誰よりも不安を抱えています。その繊細さを知っている人は少ない。でも、その深さがあなたに特別な縁を引き寄せる理由です。誰かに頼ることを「迷惑をかける」と思ってしまうタイプですよね。でも本当は、あなたに頼られたい人がそばにいます。ずっと見えなかった答えが、今日突然見えることがあります。その瞬間を見逃さないでください。",
+    base:"今日のあなたには、「光明のエネルギー」が差し込んでいます。ずっと霧の中にいたような感覚が、今日晴れるかもしれません。突然の気づきや、思わぬ連絡を見逃さないでください。あなたが求めていた答えは、もうすぐそこにあります。"
+  },{
+    name:"循環の数",
+    sub:"与えた縁が巡って戻る",
+    char:"人に与えることを惜しまない魂を持っています。損をしていると感じることもあるかもしれないけれど、あなたが与えてきたものは必ず巡って戻ってきます。その時期が、もうすぐ来ます。感謝の気持ちを誰かに伝えることで、止まっていた縁の流れが動き出します。受け取ることを遠慮しないでください。あなたにはその資格があります。",
+    base:"今日のあなたには、「循環のエネルギー」が最高潮です。今まで与えてきたものが、今日一気に戻ってくる予感があります。感謝の言葉を誰かに伝えてみてください。その一言が、止まっていた縁を大きく動かします。受け取ることを恐れないで。"
+  },{
+    name:"深化の数",
+    sub:"縁の根が深く張る",
+    char:"表面的なつながりより、深く根ざした関係を大切にするタイプです。時間をかけて育てた縁が、いざという時に最大の力を発揮します。今のあなたの縁は、深くなっています。新しい縁を探すより、今あるものを丁寧に育てることで、本物の縁が完成に近づいています。焦らず、深く。",
+    base:"今日のあなたには、「深化のエネルギー」が流れています。新しい出会いを探すより、今大切にしている人との縁を深める日です。些細なやり取りが、縁を深める大切な一歩になります。今日は量より質を大切にしてください。"
+  },{
+    name:"試練の数",
+    sub:"縁が磨かれる時期",
+    char:"簡単に手に入ったものより、苦労して得たものを大切にするタイプです。今感じている壁は、あなたの縁が本物かどうかを確かめるための試練です。諦めそうになる瞬間こそ、縁が磨かれているサインです。越えた先に、本物の縁が待っています。",
+    base:"今日のあなたには、「試練のエネルギー」が流れています。うまくいかないことがあっても、それは縁が磨かれているサインです。諦めないでください。この壁を越えた先に、今まで以上に強い縁が待っています。今日は粘り強さが武器になります。"
+  },{
+    name:"調和の数",
+    sub:"全ての縁が整い始める",
+    char:"いつも場の空気を読みすぎて、自分の気持ちを後回しにしていませんか。あなたがいるだけで場が和む力を持っている。その力に、もっと自信を持っていいです。無理に動かなくていいです。あなたがいるだけで、周りの縁が自然と整っていきます。",
+    base:"今日のあなたには、「調和のエネルギー」が満ちています。力を抜いてください。今日は頑張りすぎなくていい日です。あなたがいるだけで、周りの縁は整います。自分の気持ちを優先することが、今日の最善の行動です。"
+  },{
+    name:"再生の数",
+    sub:"終わりから新たな縁が生まれる",
+    char:"過去の縁に引きずられることがありますよね。忘れようとしても忘れられない人や出来事がある。それはその縁がまだ完結していないサインです。手放すタイミングが、もうすぐ来ます。古い縁を手放すことで、新しい縁が入ってくる空間が生まれます。",
+    base:"今日のあなたには、「再生のエネルギー」が流れています。何かを手放す準備ができていませんか。今日は終わりを恐れないでください。手放した瞬間に、新しい縁への扉が開きます。今日が、再生の始まりです。"
+  },{
+    name:"天命の数",
+    sub:"1と7が融合した特別な数",
+    char:"17という数字があなたに現れたのは偶然ではありません。1は始まり、7は完成——この2つが融合した数を持つあなたは、今世で特別な使命を持って生まれています。タロットの17番目のカードは「星」。希望と導きを意味します。あなたはその星のもとに生まれた魂です。今日のあなたに流れる力は、特別なものです。",
+    base:"今日のあなたには、特別な「天命のエネルギー」が流れています。17は始まりと完成が融合した唯一の数。今日あなたが感じる直感は、普段より何倍も鋭くなっています。迷ったら直感に従ってください。あなたの縁は、今日大きく動きます。"
+  },{
+    name:"完全の数",
+    sub:"全ての縁が一つに収束する",
+    char:"あなたはこれまでの人生で、人より多くの縁を経験してきました。喜びも痛みも、全てが今のあなたを形づくっています。その全てに意味があります。もうすぐ、それが一つに繋がる瞬間が来ます。これまで繋がらなかったピースが、今日一つに収まるかもしれません。大切な縁からの連絡があるかもしれません。見逃さないでください。",
+    base:"今日のあなたには、「完全のエネルギー」が流れています。これまでバラバラだった縁が、今日一つに繋がる予感があります。突然の連絡や、思わぬ再会を見逃さないでください。あなたが経験してきた全ての縁が、今日意味を持ち始めます。"
+  }
+];
+  document.getElementById('result-num').textContent=myNum;
+  document.getElementById('result-type').textContent=p.name+'（運命数'+myNum+'）';
+  document.getElementById('result-char').textContent=p.char;
+  document.getElementById('result-today-msg').textContent=buildMsg(destNum, todayTensuuVal);
+  const r=document.getElementById('calc-result');
+  r.style.display='block';
+}
+
+document.getElementById('bdate').addEventListener('keydown',function(e){
+  if(e.key==='Enter')calcMei();
+});
+</script>
+</body>
+</html>
