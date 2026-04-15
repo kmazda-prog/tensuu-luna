@@ -3,7 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>天数ルナ — 天数術</title>
+<title>天数ルナ — AIが届ける、あなただけの毎日占い</title>
+<meta name="description" content="天数術×AIで、毎朝あなただけの占いが届く。17パターンの運命数から導かれる今日のメッセージ。">
+<link rel="canonical" href="https://kmazda-prog.github.io/tensuu-luna/">
+<meta property="og:title" content="天数ルナ — AIが届ける、あなただけの毎日占い">
+<meta property="og:description" content="天数術×AIで、毎朝あなただけの占いが届く。17パターンの運命数から導かれる今日のメッセージ。">
+<meta property="og:type" content="website">
 <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -46,15 +51,44 @@ body::before{
   z-index:0;
 }
 .container{max-width:480px;margin:0 auto;padding:0 24px;position:relative;z-index:1;}
-header{text-align:center;padding:72px 0 48px;}
+
+/* hero */
+header{text-align:center;padding:72px 0 32px;}
 .logo-symbol{font-family:'Shippori Mincho',serif;font-size:13px;letter-spacing:0.4em;color:var(--gold);margin-bottom:24px;opacity:0;animation:fadeUp 1s ease 0.2s forwards;}
 .logo-name{font-family:'Shippori Mincho',serif;font-size:42px;font-weight:600;color:var(--text);letter-spacing:0.15em;line-height:1.2;opacity:0;animation:fadeUp 1s ease 0.4s forwards;}
 .logo-name span{color:var(--gold);}
 .logo-sub{font-size:12px;letter-spacing:0.35em;color:var(--text-dim);margin-top:12px;opacity:0;animation:fadeUp 1s ease 0.6s forwards;}
 .divider{width:1px;height:48px;background:linear-gradient(to bottom, transparent, var(--gold-dim), transparent);margin:32px auto;opacity:0;animation:fadeIn 1s ease 0.8s forwards;}
 
-/* today section */
-.today-section{text-align:center;padding:40px 0;opacity:0;animation:fadeUp 1s ease 1s forwards;}
+/* hero tagline */
+.hero-tagline{text-align:center;padding:0 0 40px;opacity:0;animation:fadeUp 1s ease 0.8s forwards;}
+.hero-catch{font-family:'Shippori Mincho',serif;font-size:22px;font-weight:500;color:var(--text);line-height:1.7;letter-spacing:0.1em;}
+.hero-catch em{color:var(--gold);font-style:normal;}
+.hero-desc{font-size:14px;color:var(--text-dim);margin-top:16px;line-height:1.9;}
+
+/* download buttons */
+.download-section{text-align:center;padding:8px 0 40px;opacity:0;animation:fadeUp 1s ease 1s forwards;}
+.store-buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.store-btn{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;border-radius:8px;font-family:'Noto Sans JP',sans-serif;font-size:14px;font-weight:400;text-decoration:none;transition:all 0.3s;letter-spacing:0.05em;}
+.store-btn-apple{background:#fff;color:#000;}
+.store-btn-apple:hover{background:#f0f0f0;}
+.store-btn-google{background:var(--gold);color:var(--ink);}
+.store-btn-google:hover{background:var(--gold-light);}
+.store-btn-icon{font-size:20px;line-height:1;}
+.store-btn-text{text-align:left;line-height:1.3;}
+.store-btn-text small{font-size:10px;display:block;opacity:0.7;}
+.store-soon{font-size:11px;color:var(--text-dim);margin-top:12px;letter-spacing:0.1em;}
+
+/* features */
+.features{padding:40px 0;opacity:0;animation:fadeUp 1s ease 1.2s forwards;}
+.features-label{font-size:11px;letter-spacing:0.4em;color:var(--gold);margin-bottom:32px;text-align:center;}
+.feature-card{background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.12);border-radius:4px;padding:28px 24px;margin-bottom:16px;text-align:center;}
+.feature-icon{font-size:28px;margin-bottom:12px;}
+.feature-title{font-family:'Shippori Mincho',serif;font-size:17px;color:var(--text);letter-spacing:0.15em;margin-bottom:8px;}
+.feature-desc{font-size:13px;color:var(--text-dim);line-height:1.9;}
+
+/* today section (teaser) */
+.today-section{text-align:center;padding:40px 0;opacity:0;animation:fadeUp 1s ease 1.4s forwards;}
 .today-label{font-size:11px;letter-spacing:0.4em;color:var(--gold);margin-bottom:16px;}
 .today-date{font-size:13px;color:var(--text-dim);margin-bottom:32px;letter-spacing:0.1em;}
 .today-number{font-family:'Shippori Mincho',serif;font-size:96px;font-weight:600;color:var(--gold);line-height:1;position:relative;display:inline-block;}
@@ -63,21 +97,9 @@ header{text-align:center;padding:72px 0 48px;}
 .today-type{font-family:'Shippori Mincho',serif;font-size:18px;color:var(--text);margin-top:28px;letter-spacing:0.2em;}
 .today-msg{font-size:14px;color:var(--text-dim);margin-top:12px;line-height:1.9;padding:0 8px;}
 
-/* today full message box */
-.msg-box{background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:2px;padding:24px;margin-top:24px;text-align:left;}
-.msg-box-label{font-size:11px;letter-spacing:0.3em;color:var(--gold);margin-bottom:12px;}
-.msg-box-content{font-size:14px;color:var(--text);line-height:2;}
-.msg-box-theme{font-size:12px;color:var(--text-dim);margin-top:12px;padding-top:12px;border-top:1px solid rgba(201,168,76,0.1);}
-
-/* copy btn */
-.copy-btn{display:inline-block;margin-top:12px;padding:4px 10px;background:transparent;border:1px solid rgba(201,168,76,0.15);border-radius:2px;color:var(--text-dim);font-family:'Noto Sans JP',sans-serif;font-size:10px;letter-spacing:0.1em;cursor:pointer;transition:all 0.3s;text-align:center;}
-.copy-btn:hover{color:var(--gold);border-color:rgba(201,168,76,0.3);}
-
-/* section */
-.section{padding:40px 0;opacity:0;animation:fadeUp 1s ease 1.2s forwards;}
-.section-label{font-size:11px;letter-spacing:0.4em;color:var(--gold);margin-bottom:24px;text-align:center;}
-
 /* calculator */
+.section{padding:40px 0;}
+.section-label{font-size:11px;letter-spacing:0.4em;color:var(--gold);margin-bottom:24px;text-align:center;}
 .calc-box{background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);border-radius:2px;padding:28px 24px;}
 .calc-desc{font-size:13px;color:var(--text-dim);text-align:center;margin-bottom:20px;line-height:1.8;}
 .input-group{display:flex;gap:10px;margin-bottom:8px;}
@@ -95,20 +117,30 @@ header{text-align:center;padding:72px 0 48px;}
 .result-today-label{font-size:11px;letter-spacing:0.3em;color:var(--gold);margin-bottom:8px;}
 .result-today-msg{font-size:13px;color:var(--text);line-height:1.9;}
 
-/* cta */
-.cta-section{padding:40px 0 24px;opacity:0;animation:fadeUp 1s ease 1.4s forwards;}
-.cta-btn{display:block;width:100%;padding:18px 24px;margin-bottom:12px;border-radius:2px;font-family:'Noto Sans JP',sans-serif;font-size:14px;font-weight:400;letter-spacing:0.15em;text-align:center;text-decoration:none;cursor:pointer;transition:all 0.3s;border:none;}
-.cta-primary{background:var(--gold);color:var(--ink);}
-.cta-primary:hover{background:var(--gold-light);}
-.cta-secondary{background:transparent;color:var(--text);border:1px solid rgba(201,168,76,0.3);}
-.cta-secondary:hover{border-color:var(--gold);color:var(--gold);}
-.cta-label{font-size:10px;letter-spacing:0.3em;color:var(--text-dim);margin-bottom:6px;}
+/* app upsell after result */
+.app-upsell{margin-top:20px;padding:20px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:4px;text-align:center;display:none;}
+.app-upsell-text{font-size:13px;color:var(--text);line-height:1.8;margin-bottom:12px;}
+.app-upsell-text em{color:var(--gold);font-style:normal;}
+.app-upsell-btn{display:inline-block;padding:10px 28px;background:var(--gold);color:var(--ink);border-radius:4px;font-size:13px;font-weight:500;text-decoration:none;letter-spacing:0.1em;transition:background 0.3s;}
+.app-upsell-btn:hover{background:var(--gold-light);}
+
+/* cta bottom */
+.cta-bottom{padding:40px 0;text-align:center;}
+.cta-bottom-catch{font-family:'Shippori Mincho',serif;font-size:20px;color:var(--text);letter-spacing:0.15em;margin-bottom:8px;line-height:1.6;}
+.cta-bottom-catch em{color:var(--gold);font-style:normal;}
+.cta-bottom-desc{font-size:13px;color:var(--text-dim);margin-bottom:24px;line-height:1.8;}
 
 /* 17 */
-.seventeen-section{padding:48px 0;text-align:center;opacity:0;animation:fadeUp 1s ease 1.6s forwards;}
+.seventeen-section{padding:48px 0;text-align:center;}
 .seventeen-num{font-family:'Shippori Mincho',serif;font-size:64px;color:rgba(201,168,76,0.15);line-height:1;margin-bottom:16px;}
 .seventeen-text{font-size:13px;color:var(--text-dim);line-height:2;}
 .seventeen-text em{color:var(--gold);font-style:normal;}
+
+/* line & note */
+.sub-links{padding:24px 0;text-align:center;}
+.sub-links-label{font-size:10px;letter-spacing:0.3em;color:var(--text-dim);margin-bottom:8px;}
+.sub-link{display:inline-block;padding:8px 20px;margin:4px;border:1px solid rgba(201,168,76,0.15);border-radius:2px;color:var(--text-dim);font-size:12px;text-decoration:none;letter-spacing:0.1em;transition:all 0.3s;}
+.sub-link:hover{color:var(--gold);border-color:rgba(201,168,76,0.3);}
 
 footer{text-align:center;padding:48px 0 64px;border-top:1px solid rgba(201,168,76,0.1);}
 .footer-name{font-family:'Shippori Mincho',serif;font-size:16px;color:var(--text-dim);letter-spacing:0.3em;}
@@ -117,64 +149,127 @@ footer{text-align:center;padding:48px 0 64px;border-top:1px solid rgba(201,168,7
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
 @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
 hr{border:none;border-top:1px solid rgba(201,168,76,0.1);margin:8px 0;}
+
+/* scroll animations */
+.fade-in-scroll{opacity:0;transform:translateY(20px);transition:opacity 0.8s ease, transform 0.8s ease;}
+.fade-in-scroll.visible{opacity:1;transform:translateY(0);}
 </style>
 </head>
 <body>
 <div class="container">
 
+  <!-- HERO -->
   <header>
-    <p class="logo-symbol">✦ TENSUU JUTSU ✦</p>
+    <p class="logo-symbol">TENSUU JUTSU</p>
     <h1 class="logo-name">天数<span>ルナ</span></h1>
-    <p class="logo-sub">天数術 — 運命数が導く、あなたの今日</p>
-    <div class="divider"></div>
+    <p class="logo-sub">天数術 AI占い</p>
   </header>
 
-  <div class="today-section">
-    <p class="today-label">TODAY'S TENSUU</p>
-    <p class="today-date" id="today-date"></p>
-    <div class="today-number" id="today-num"></div>
-    <p class="today-type" id="today-type"></p>
-    <p class="today-msg" id="today-msg"></p>
-    <div class="msg-box" id="today-full-box">
-      <p class="msg-box-label">✦ 今日のメッセージ</p>
-      <p class="msg-box-content" id="today-full-msg"></p>
-      <p class="msg-box-theme" id="today-theme-note"></p>
-      <button class="copy-btn" onclick="copyMsg()">このメッセージをコピーする</button>
+  <div class="hero-tagline">
+    <p class="hero-catch">
+      毎朝届く、<em>あなただけ</em>の占い。<br>
+      天数術 <em>&times;</em> AI が<br>
+      今日の運命を読み解く。
+    </p>
+    <p class="hero-desc">
+      生年月日から導かれる運命数と、日々変わる天数。<br>
+      2つの数が交わる17パターンから、<br>
+      AIがあなた専用のメッセージを毎日届けます。
+    </p>
+  </div>
+
+  <!-- DOWNLOAD CTA -->
+  <div class="download-section" id="download">
+    <div class="store-buttons">
+      <a href="#" class="store-btn store-btn-apple" id="btn-apple">
+        <span class="store-btn-icon">&#63743;</span>
+        <span class="store-btn-text"><small>Download on the</small>App Store</span>
+      </a>
+      <a href="#" class="store-btn store-btn-google" id="btn-google">
+        <span class="store-btn-icon">&#9654;</span>
+        <span class="store-btn-text"><small>GET IT ON</small>Google Play</span>
+      </a>
+    </div>
+    <p class="store-soon">無料ダウンロード / 一部機能はプレミアム</p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- FEATURES -->
+  <div class="features fade-in-scroll">
+    <p class="features-label">FEATURES</p>
+
+    <div class="feature-card">
+      <div class="feature-icon">&#127769;</div>
+      <p class="feature-title">AI が毎日あなただけの占いを生成</p>
+      <p class="feature-desc">テンプレートではなく、あなたの運命数と今日の天数から<br>AIがリアルタイムで文章を紡ぎます。<br>同じ日は二度とない、一期一会の占い。</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">&#10024;</div>
+      <p class="feature-title">17パターンの天数術</p>
+      <p class="feature-desc">総合運・恋愛運・仕事運・金運・健康運・人間関係運。<br>6つの運勢をカテゴリ別に詳しくお届け。<br>ラッキーカラーや今日のアクションも。</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">&#128276;</div>
+      <p class="feature-title">毎朝プッシュ通知でお届け</p>
+      <p class="feature-desc">朝起きたらルナからのメッセージが届いている。<br>占いを見に行く必要はありません。<br>毎日の習慣に、自然に溶け込みます。</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">&#127873;</div>
+      <p class="feature-title">無料で始められる</p>
+      <p class="feature-desc">基本の占いは完全無料。<br>広告を見るだけで詳細メッセージも解放。<br>プレミアムなら広告なしで全機能使い放題。</p>
     </div>
   </div>
 
   <div class="divider"></div>
 
-  <div class="section">
-    <p class="section-label">YOUR TENSUU — あなたの運命数</p>
+  <!-- TODAY'S TENSUU (teaser) -->
+  <div class="today-section fade-in-scroll">
+    <p class="today-label">TODAY'S TENSUU</p>
+    <p class="today-date" id="today-date"></p>
+    <div class="today-number" id="today-num"></div>
+    <p class="today-type" id="today-type"></p>
+    <p class="today-msg" id="today-msg"></p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- TRY IT -->
+  <div class="section fade-in-scroll">
+    <p class="section-label">TRY IT — あなたの運命数を調べる</p>
     <div class="calc-box">
       <p class="calc-desc">生年月日を入力すると、<br>あなたの運命数と今日のメッセージが分かります</p>
       <div class="input-group">
-        <input type="text" class="calc-input" id="bdate" placeholder="例：19950322" maxlength="8">
+        <input type="text" class="calc-input" id="bdate" placeholder="例：19950322" maxlength="8" inputmode="numeric">
         <button class="calc-btn" onclick="calcMei()">調べる</button>
       </div>
-      <p class="calc-hint">西暦8桁で入力（例：1995年3月22日→19950322）</p>
+      <p class="calc-hint">西暦8桁で入力（例：1995年3月22日 → 19950322）</p>
       <div class="calc-result" id="calc-result">
         <div class="result-number" id="result-num"></div>
         <p class="result-type" id="result-type"></p>
         <p class="result-char" id="result-char"></p>
         <div class="result-today">
-          <p class="result-today-label">✦ あなたの今日のメッセージ</p>
+          <p class="result-today-label">今日のメッセージ</p>
           <p class="result-today-msg" id="result-today-msg"></p>
+        </div>
+        <div class="app-upsell" id="app-upsell">
+          <p class="app-upsell-text">
+            アプリなら<em>恋愛運・仕事運・金運</em>など<br>
+            6カテゴリの詳細占いが毎日届きます
+          </p>
+          <a href="#download" class="app-upsell-btn">無料でダウンロード</a>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="cta-section">
-    <p class="section-label">READING — 詳しく鑑定する</p>
-    <p class="cta-label">無料テキスト鑑定 · LINE</p>
-    <a href="https://lin.ee/ELuvOQj" class="cta-btn cta-primary">LINEで鑑定を申し込む</a>
-    <p class="cta-label">今月の運命数別運勢 · note</p>
-    <a href="https://note.com/tensuu_luna" class="cta-btn cta-secondary">noteで詳細運勢を読む</a>
-  </div>
+  <div class="divider"></div>
 
-  <div class="seventeen-section">
+  <!-- 17 -->
+  <div class="seventeen-section fade-in-scroll">
     <div class="seventeen-num">17</div>
     <p class="seventeen-text">
       <em>1</em>は始まり、<em>7</em>は完成。<br>
@@ -186,11 +281,38 @@ hr{border:none;border-top:1px solid rgba(201,168,76,0.1);margin:8px 0;}
     </p>
   </div>
 
+  <div class="divider"></div>
+
+  <!-- BOTTOM CTA -->
+  <div class="cta-bottom fade-in-scroll">
+    <p class="cta-bottom-catch">
+      今日の<em>運命</em>を、<br>覗いてみませんか。
+    </p>
+    <p class="cta-bottom-desc">ダウンロード無料。今すぐルナに会える。</p>
+    <div class="store-buttons">
+      <a href="#" class="store-btn store-btn-apple" id="btn-apple-btm">
+        <span class="store-btn-icon">&#63743;</span>
+        <span class="store-btn-text"><small>Download on the</small>App Store</span>
+      </a>
+      <a href="#" class="store-btn store-btn-google" id="btn-google-btm">
+        <span class="store-btn-icon">&#9654;</span>
+        <span class="store-btn-text"><small>GET IT ON</small>Google Play</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- SUB LINKS -->
+  <div class="sub-links">
+    <p class="sub-links-label">OTHER</p>
+    <a href="https://lin.ee/ELuvOQj" class="sub-link">LINE鑑定</a>
+    <a href="https://note.com/tensuu_luna" class="sub-link">note</a>
+  </div>
+
   <hr>
 
   <footer>
     <p class="footer-name">天数ルナ</p>
-    <p class="footer-copy">© 天数術 All rights reserved.</p>
+    <p class="footer-copy">&copy; 天数術 All rights reserved.</p>
   </footer>
 
 </div>
@@ -211,8 +333,6 @@ const todayThemes=[
   "手放すことで新しい縁が入ってくる日。執着を一つ捨ててください。"
 ];
 
-// 運命数(1-9) + 今日の天数(1-9) = 2-18
-// インデックス0は使わない、1は使わない（最小は2）
 const P = {};
 P[2]  = {name:"萌芽の数",   char:"表には出さないけれど、誰よりも強い意志と信念を内側に秘めています。一度決めたことは最後までやり遂げる力がある反面、その強さゆえに孤独を感じやすいところがあります。人に頼ることが苦手で、いつも少し頑張りすぎてしまう。でも、そのひたむきさが本物の縁を引き寄せる理由になっています。あなたの直感は鋭く、最初に感じた答えが正しいことが多いです。今のあなたの縁は、あなたが一歩踏み出すのを待っています。", base:"今日のあなたには、新しい縁を動かすエネルギーが流れています。躊躇していたことがあれば、今日がその一歩を踏み出す日です。完璧じゃなくていい。動いた瞬間に、縁は動き出します。"};
 P[3]  = {name:"覚醒の数",   char:"人の気持ちを誰よりも敏感に感じ取る力を持っています。相手が言葉にしていない感情まで読み取れるため、知らず知らずのうちに疲れを溜め込んでしまうことがあります。自分よりも他の人のことを優先してしまう癖があり、本当は嫌だったのに後から気づくことも少なくありません。でも、そのやさしさがあなたの最大の魅力です。今、あなたの縁は「伝えること」を必要としています。", base:"今日のあなたには、縁を繋ぐエネルギーが流れています。誰かに連絡したい気持ちがあるなら、それは縁のサインです。自分の気持ちを後回しにせず、今日は素直に伝えてみてください。"};
@@ -241,7 +361,6 @@ function buildMsg(destNum, todayTensuu){
 }
 
 let todayTensuuVal=1;
-let todayFullMsgText='';
 
 (function(){
   const d=new Date();
@@ -254,37 +373,34 @@ let todayFullMsgText='';
   document.getElementById('today-num').textContent=en;
   document.getElementById('today-type').textContent=typeNames[en]+'の天数';
   document.getElementById('today-msg').textContent=todayThemes[en];
-  todayFullMsgText='天数ルナです。\n今日'+m+'月'+day+'日の天数は【'+en+'】'+typeNames[en]+'の天数。\n\n'+todayThemes[en]+'\n\n自分の運命数と足して、今日のあなたの数字を出してください。\n→ kmazda-prog.github.io/tensuu-luna/';
-  document.getElementById('today-full-msg').innerText=todayFullMsgText;
-  document.getElementById('today-theme-note').textContent='※ 今日の天数'+en+'は「'+typeNames[en]+'」のエネルギーが流れる日です。';
 })();
-
-function copyMsg(){
-  navigator.clipboard.writeText(todayFullMsgText).then(function(){
-    const btn=document.querySelector('.copy-btn');
-    btn.textContent='コピーしました ✦';
-    setTimeout(function(){btn.textContent='コピーする';},2000);
-  });
-}
 
 function calcMei(){
   const v=document.getElementById('bdate').value.replace(/[^0-9]/g,'');
   if(v.length<6)return;
   const myNum=digitSum(v.split('').reduce((a,b)=>a+Number(b),0));
-  const raw=myNum+todayTensuuVal;
-  const destNum=(raw<2)?2:(raw>18)?18:raw;
+  const dd=new Date();
+  const dateSeed=(dd.getFullYear()*31+(dd.getMonth()+1)*7+dd.getDate()*13)%97;
+  const destNum=((myNum+todayTensuuVal+dateSeed)%17)+2;
   const p=P[destNum];
-  if(!p){alert('エラー: destNum='+destNum);return;}
+  if(!p){alert('Error');return;}
   document.getElementById('result-num').textContent=myNum;
   document.getElementById('result-type').textContent=p.name+'（運命数'+myNum+'）';
   document.getElementById('result-char').textContent=p.char;
   document.getElementById('result-today-msg').textContent=buildMsg(destNum,todayTensuuVal);
   document.getElementById('calc-result').style.display='block';
+  document.getElementById('app-upsell').style.display='block';
 }
 
 document.getElementById('bdate').addEventListener('keydown',function(e){
   if(e.key==='Enter')calcMei();
 });
+
+// scroll animations
+const observer=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');}});
+},{threshold:0.1});
+document.querySelectorAll('.fade-in-scroll').forEach(function(el){observer.observe(el);});
 </script>
 </body>
 </html>
